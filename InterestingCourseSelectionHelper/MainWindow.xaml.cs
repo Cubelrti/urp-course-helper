@@ -19,6 +19,7 @@ using InterestingCourseSelectionHelper.Interfaces;
 using System.Net;
 using HtmlAgilityPack;
 using InterestingCourseSelectionHelper.Dto;
+using System.Threading;
 
 namespace InterestingCourseSelectionHelper
 {
@@ -36,9 +37,9 @@ namespace InterestingCourseSelectionHelper
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
             ih = new InternetHelper();
-            Bitmap bitmap = await ValidateCode.getValidateCodeImage(ih);
+            Bitmap bitmap = await ValidateCode.GetValidateCodeImage(ih);
             ValidateCodeImage.Source = ImageProcessor.ToBitmapImage(bitmap);
-            string validateResult = await ValidateCode.getValidateCode(bitmap);
+            string validateResult = await ValidateCode.GetValidateCode(bitmap);
             ValidateResult.Text = "ValidateResult: " + validateResult;
             var result = await UserAction.SignIn(Username.Text, Password.Text, validateResult, ih);
             HttpResultContent.Text = await result.ReadAsStringAsync();
@@ -51,7 +52,7 @@ namespace InterestingCourseSelectionHelper
                 {
                     Cookies.Text = item.Value;
                 }
-
+                Controls.IsEnabled = true;
             }
             else if (AutoRetry.IsChecked.Value)
             {
@@ -67,7 +68,11 @@ namespace InterestingCourseSelectionHelper
             var text = await result.ReadAsStringAsync();
             var htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(text);
-
+            if (text.Contains("错误信息"))
+            {
+                Status.Text = "Error.";
+                return;
+            }
             var list = new List<string>();
         
             foreach (HtmlNode node in htmlDoc.DocumentNode.SelectNodes("//tr//td"))
@@ -77,6 +82,8 @@ namespace InterestingCourseSelectionHelper
                     continue;
                 list.Add(item);
             }
+
+            
 
             for (int i = 0; i < list.Count; i+=9)
             {
@@ -92,9 +99,39 @@ namespace InterestingCourseSelectionHelper
 
         }
 
+        CancellationTokenSource source;
+
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            
+            source = new CancellationTokenSource();
+            Status.Text = "Monitoring...";
+#pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
+            PeriodicCheckCourseAsync(TimeSpan.FromMilliseconds(1000), source.Token);
+#pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
+        }
+
+        private async void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            await Clients.ValidateCode.GetAndCheckCodeAsync(ih);
+            Status.Text = "Stopped.";
+            source.Cancel();
+        }
+
+        public async Task PeriodicCheckCourseAsync(TimeSpan interval, CancellationToken cancellationToken)
+        {
+            while (true)
+            {
+                //await FooAsync();
+                //if FooAsync get validateCode
+                //if (true)
+                //{
+                //    await Clients.ValidateCode.GetAndCheckCodeAsync(ih);
+                //}
+                Status.Text = "Monitoring Dynamically...";
+                await Task.Delay(interval, cancellationToken);
+                if (cancellationToken.IsCancellationRequested)
+                    break;
+            }
         }
     }
 }

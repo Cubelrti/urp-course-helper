@@ -50,14 +50,24 @@
             <!--Here is setting content-->
         </Grid>
         <Label Grid.Row="3" Grid.Column="0" Margin="8">Monitor:</Label>
-        <TextBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="5" Margin="10"></TextBox>
-        <Button Grid.Row="4" Grid.ColumnSpan="1" Click="Button_Click_1">GetSelectedClass</Button>
-        <Button Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" Click="Button_Click_2">SelectClass</Button>
-        <Button Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="1">TestSelect</Button>
-        <Button Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="1"></Button>
-        <Button Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="1">GetClass</Button>
-        <Button Grid.Row="4" Grid.Column="5" Grid.ColumnSpan="1">GetClass</Button>
-        <TextBlock Grid.ColumnSpan="2" Grid.Row="5" Text="Ready" VerticalAlignment="Bottom" Margin="5,0,5,4" Height="15"></TextBlock>
+        <TextBox x:Name="Monitor" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="5" Margin="10"></TextBox>
+        <Grid x:Name="Controls" Grid.Row="4" Grid.ColumnSpan="6" IsEnabled="False">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Row="4" Grid.ColumnSpan="1" Click="Button_Click_1">GetSelectedClass</Button>
+            <Button Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" Click="Button_Click_2">MonitorClass</Button>
+            <Button Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="1" Click="Button_Click_3">StopMonitoring</Button>
+            <Button Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="1"></Button>
+            <Button Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="1">GetClass</Button>
+            <Button Grid.Row="4" Grid.Column="5" Grid.ColumnSpan="1">GetClass</Button>
+        </Grid>
+        <TextBlock x:Name="Status" Grid.ColumnSpan="2" Grid.Row="5" Text="Ready" VerticalAlignment="Bottom" Margin="5,0,5,4" Height="15"></TextBlock>
         <Image x:Name="ValidateCodeImage" Grid.Column="2" Grid.Row="5"></Image>
         <TextBlock x:Name="ValidateResult" Grid.Column="3" Grid.Row="5" Text="ValidationState: Ready" VerticalAlignment="Bottom" Margin="5,0,5,4" Height="15"></TextBlock>
         <TextBlock x:Name="Cookies" Grid.Column="4" Grid.Row="5" Text="Cookies" VerticalAlignment="Bottom" Margin="5,0,5,4" Height="15"></TextBlock>

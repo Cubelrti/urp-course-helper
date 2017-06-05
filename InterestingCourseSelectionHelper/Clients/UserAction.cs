@@ -45,6 +45,11 @@ namespace InterestingCourseSelectionHelper.Clients
             return await ih.PostAsyncWithValidation(Address.GetFreeSelectCourseUri(), formData);
         }
 
+        public static async Task<HttpContent> GetSelectableCourse(InternetHelper ih)
+        {
+            return await ih.GetAsync(Address.GetSelectableCourseUri());
+        }
+
 
         public static async Task<HttpContent> GetClass(InternetHelper ih)
         {
