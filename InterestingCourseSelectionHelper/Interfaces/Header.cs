@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InterestingCourseSelectionHelper.Interfaces
+namespace UrpSelectionHelper.Interfaces
 {
     public static class Header
     {

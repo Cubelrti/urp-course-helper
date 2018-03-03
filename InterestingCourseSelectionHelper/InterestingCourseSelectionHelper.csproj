@@ -73,13 +73,16 @@
     </Compile>
     <Compile Include="Clients\QueryCourse.cs" />
     <Compile Include="Clients\SelectCourse.cs" />
-    <Compile Include="Clients\UserAction.cs" />
+    <Compile Include="Clients\FormAction.cs" />
     <Compile Include="Clients\ValidateCode.cs" />
+    <Compile Include="Dto\MonitoringCourse.cs" />
+    <Compile Include="Dto\Notification.cs" />
     <Compile Include="Dto\SelectedCourse.cs" />
     <Compile Include="Helpers\InternetHelper.cs" />
     <Compile Include="Helpers\ImageProcessor.cs" />
-    <Compile Include="Interfaces\Address.cs" />
+    <Compile Include="Interfaces\FreeAddress.cs" />
     <Compile Include="Interfaces\Header.cs" />
+    <Compile Include="Interfaces\LimitedAddress.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -114,6 +117,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="surprise.wav" />
     <Content Include="x64\liblept172.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

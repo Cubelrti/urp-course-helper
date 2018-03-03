@@ -6,16 +6,14 @@ using System.Threading.Tasks;
 
 namespace UrpSelectionHelper.Dto
 {
-    class SelectedCourse
+    class MonitoringCourse
     {
-        public SelectedCourse()
+        public MonitoringCourse()
         {
 
         }
         public string Id { get; set; }
         public string Serial { get; set; }
-        public string Name { get; set; }
-        public string Teacher { get; set; }
-        public string Selectable { get; set; }
+        public string Status { get; set; }
     }
 }

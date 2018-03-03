@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace InterestingCourseSelectionHelper.Properties
+namespace UrpSelectionHelper.Properties
 {
 
 

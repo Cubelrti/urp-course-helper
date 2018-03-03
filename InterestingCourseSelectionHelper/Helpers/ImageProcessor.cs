@@ -8,7 +8,7 @@ using System.Windows.Media.Imaging;
 using System.IO;
 using System.Drawing.Imaging;
 
-namespace InterestingCourseSelectionHelper.Helpers
+namespace UrpSelectionHelper.Helpers
 {
     public static class ImageProcessor
     {

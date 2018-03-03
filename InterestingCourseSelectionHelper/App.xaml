@@ -1,7 +1,7 @@
-﻿<Application x:Class="InterestingCourseSelectionHelper.App"
+﻿<Application x:Class="UrpSelectionHelper.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:InterestingCourseSelectionHelper"
+             xmlns:local="clr-namespace:UrpSelectionHelper"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
          

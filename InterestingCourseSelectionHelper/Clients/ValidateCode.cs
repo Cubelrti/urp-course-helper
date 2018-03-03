@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Drawing;
-using InterestingCourseSelectionHelper.Helpers;
-using InterestingCourseSelectionHelper.Interfaces;
+using UrpSelectionHelper.Helpers;
+using UrpSelectionHelper.Interfaces;
 using Tesseract;
 using System.IO;
 using System.Net.Http;
+using InterestingCourseSelectionHelper.Interfaces;
 
-namespace InterestingCourseSelectionHelper.Clients
+namespace UrpSelectionHelper.Clients
 {
     class ValidateCode
     {
-        public async static Task<Bitmap> GetValidateCodeImage(InternetHelper ih)
+        public async static Task<Bitmap> GetValidateCodeImage(InternetHelper ih,string random)
         {
-            Stream stream = await ih.GetAsyncStream(Address.GetValidateImageUri());
+            Stream stream = await ih.GetAsyncStream(FreeAddress.GetValidateImageUri(random));
             Bitmap map = new Bitmap(Image.FromStream(stream));
             ImageProcessor.ToGrey(map);
             ImageProcessor.Thresholding(map);
@@ -35,26 +32,29 @@ namespace InterestingCourseSelectionHelper.Clients
             });
         }
 
-        public async static Task GetAndCheckCodeAsync(InternetHelper ih)
+        public async static Task<string> GetAndCheckCodeAsync(InternetHelper ih, bool isLimited)
         {
-            bool isValidateCodeIncorrect = true;
-            const int MAXIMUM_RETRY_TIMES = 8;
-            int tryTime = 0;
-            while (isValidateCodeIncorrect || tryTime > MAXIMUM_RETRY_TIMES) 
+
+            string code = "";
+            var map = await GetValidateCodeImage(ih,"100");
+            code = await GetValidateCode(map);
+            string result;
+            if(isLimited)
+                result = await (await ih.GetAsync(LimitedAddress.GetValidateCheckUri(code))).ReadAsStringAsync();
+            else result = await (await ih.GetAsync(FreeAddress.GetValidateCheckUri(code))).ReadAsStringAsync();
+            if (result.Contains("true"))
             {
-                var map = await GetValidateCodeImage(ih);
-                var code = await GetValidateCode(map);
-                isValidateCodeIncorrect = !await CheckValidateCode(code, ih);
+                return code;
             }
 
-            return;
+            else return await GetAndCheckCodeAsync(ih, isLimited);
         }
 
         public async static Task<bool> CheckValidateCode(string validateCode, InternetHelper ih)
         {
-            var result = await ih.GetAsync(Address.GetValidateCheckUri(validateCode));
+            var result = await ih.GetAsync(FreeAddress.GetValidateCheckUri(validateCode));
             var text = await result.ReadAsStringAsync();
-            return text.Contains("TRUE");
+            return text.Contains("true");
         }
     }
 }

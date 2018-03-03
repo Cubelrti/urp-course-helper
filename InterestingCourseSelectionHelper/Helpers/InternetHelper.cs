@@ -4,11 +4,11 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using InterestingCourseSelectionHelper.Interfaces;
+using UrpSelectionHelper.Interfaces;
 using System.IO;
 using System.Net;
 
-namespace InterestingCourseSelectionHelper.Helpers
+namespace UrpSelectionHelper.Helpers
 {
     public class InternetHelper
     {
@@ -30,7 +30,14 @@ namespace InterestingCourseSelectionHelper.Helpers
         public async Task<HttpContent> PostAsyncWithValidation(Uri link, Dictionary<string, string> form)
         {
             var content = new FormUrlEncodedContent(form);
-            var responseFromValidation = await http.GetAsync(Address.GetLoginActionUri());
+            var responseFromValidation = await http.GetAsync(FreeAddress.GetLoginActionUri());
+            var response = await http.PostAsync(link, content);
+            return response.Content;
+        }
+
+        public async Task<HttpContent> PostAsync(Uri link, IEnumerable<KeyValuePair<string, string>> form)
+        {
+            var content = new FormUrlEncodedContent(form);
             var response = await http.PostAsync(link, content);
             return response.Content;
         }
@@ -47,5 +54,3 @@ namespace InterestingCourseSelectionHelper.Helpers
         }
     }
 }
-
-
